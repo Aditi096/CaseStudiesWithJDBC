@@ -18,6 +18,15 @@ public class Account {
 		this.accountBalance = accountBalance;
 		this.transactions = transactions;
 	}
+	
+	public Account(long accountNo, int pinNumber, String accountType, String accountStatus, float accountBalance) {
+		super();
+		this.accountNo = accountNo;
+		this.pinNumber = pinNumber;
+		this.accountType = accountType;
+		this.accountStatus = accountStatus;
+		this.accountBalance = accountBalance;
+	}
 	public Account(long accountNo, int pinNumber, String accountType, String accountStatus, float accountBalance,
 			Map<Integer,Transaction> transactions) {
 		super();
