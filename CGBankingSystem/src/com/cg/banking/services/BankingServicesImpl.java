@@ -3,11 +3,12 @@ package com.cg.banking.services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
 import com.cg.banking.beans.Account;
 import com.cg.banking.beans.Transaction;
 import com.cg.banking.daoservices.AccountDAO;
 import com.cg.banking.daoservices.AccountDAOImpl;
+import com.cg.banking.daoservices.TransactionDAO;
+import com.cg.banking.daoservices.TransactionDAOImpl;
 import com.cg.banking.exceptions.AccountBlockedException;
 import com.cg.banking.exceptions.AccountNotFoundException;
 import com.cg.banking.exceptions.BankingServicesDownException;
@@ -15,11 +16,11 @@ import com.cg.banking.exceptions.InsufficientAmountException;
 import com.cg.banking.exceptions.InvalidAccountTypeException;
 import com.cg.banking.exceptions.InvalidAmountException;
 import com.cg.banking.exceptions.InvalidPinNumberException;
-import com.cg.banking.util.BankingDBUtil;
 
 public class BankingServicesImpl implements BankingServices{
 
 	private AccountDAO accountDao = new AccountDAOImpl();
+	private TransactionDAO transactionDao = new TransactionDAOImpl();
 	Scanner sc = new Scanner(System.in);
 	@Override
 	public Account openAccount(String accountType, float initBalance)
@@ -55,9 +56,8 @@ public class BankingServicesImpl implements BankingServices{
 		if(account.getAccountStatus().equalsIgnoreCase("ACTIVE")) {
 			float newAmount = account.getAccountBalance() + amount;
 			account.setAccountBalance(newAmount);
-			int transactionId = BankingDBUtil.getTRANSACTION_NO_COUNTER();
-			Transaction transaction = new Transaction(transactionId, amount , "DEPOSITED");
-			account.getTransactions().put(transactionId, transaction);
+			Transaction transaction = new Transaction(amount , "DEPOSITED" , accountNo);
+			transactionDao.save(transaction);
 			return newAmount;
 		}
 		else 
@@ -74,8 +74,11 @@ public class BankingServicesImpl implements BankingServices{
 					float newAmount = account.getAccountBalance() - amount ; 
 					if(newAmount < 500) 
 						throw new InsufficientAmountException("Balance cannot go below 500");
-					else
+					else {
 						account.setAccountBalance(newAmount);
+						Transaction transaction = new  Transaction(amount, "WITHDRAW" , accountNo);
+						transactionDao.save(transaction);
+					}
 					return newAmount;
 				}
 				else{
@@ -118,7 +121,6 @@ public class BankingServicesImpl implements BankingServices{
 	@Override
 	public List<Transaction> getAccountAllTransaction(long accountNo)
 			throws BankingServicesDownException, AccountBlockedException {
-		// TODO Auto-generated method stub
-		return null;
+		return transactionDao.findAll();
 	}
 }

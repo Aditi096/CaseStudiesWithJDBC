@@ -4,6 +4,9 @@ public class Transaction {
 	private int transactionId;
 	private float amount;
 	private String transactionType;
+	private long accountInit;
+	private long accountFinal;
+	
 	public Transaction() {	}
 	
 	public Transaction(float amount, String transactionType) {
@@ -17,6 +20,21 @@ public class Transaction {
 		this.transactionId = transactionId;
 		this.amount = amount;
 		this.transactionType = transactionType;
+	}
+	
+	public Transaction(float amount, String transactionType, long accountInit, long accountFinal) {
+		super();
+		this.amount = amount;
+		this.transactionType = transactionType;
+		this.accountInit = accountInit;
+		this.accountFinal = accountFinal;
+	}
+	
+	public Transaction(float amount, String transactionType, long accountInit) {
+		super();
+		this.amount = amount;
+		this.transactionType = transactionType;
+		this.accountInit = accountInit;
 	}
 
 	public int getTransactionId() {
@@ -41,6 +59,22 @@ public class Transaction {
 
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
+	}
+	
+	public long getAccountInit() {
+		return accountInit;
+	}
+
+	public void setAccountInit(long accountInit) {
+		this.accountInit = accountInit;
+	}
+
+	public long getAccountFinal() {
+		return accountFinal;
+	}
+
+	public void setAccountFinal(long accountFinal) {
+		this.accountFinal = accountFinal;
 	}
 
 	@Override

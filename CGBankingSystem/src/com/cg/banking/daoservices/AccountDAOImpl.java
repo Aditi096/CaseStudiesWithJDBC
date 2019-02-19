@@ -6,10 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import com.cg.banking.beans.Account;
-import com.cg.banking.beans.Transaction;
 import com.cg.banking.util.BankingDBUtil;
 
 public class AccountDAOImpl implements AccountDAO{
@@ -21,7 +18,7 @@ public class AccountDAOImpl implements AccountDAO{
 		try {
 			con.setAutoCommit(false);
 
-			PreparedStatement pstmt1 = con.prepareStatement("insert into Account(accountNo,pinNumber,accountType,accountStatus,accountBalance) values(ACCOUNT_NO_SEQ,?,?,?,?)");
+			PreparedStatement pstmt1 = con.prepareStatement("insert into Account(accountNo,pinNumber,accountType,accountStatus,accountBalance) values(ACCOUNT_NO_SEQ.NEXTVAL,?,?,?,?)");
 			pstmt1.setInt(1, account.getPinNumber());
 			pstmt1.setString(2, account.getAccountType());
 			pstmt1.setString(3, account.getAccountStatus());

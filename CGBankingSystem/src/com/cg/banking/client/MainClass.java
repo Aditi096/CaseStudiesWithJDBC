@@ -94,5 +94,6 @@ public class MainClass {
 			System.out.println("Do you want to continue(y/n): ");
 			ch = sc.next().charAt(0);
 		}
+		sc.close();
 	}
 }
